@@ -1,0 +1,26 @@
+const server = Bun.serve({
+  port: 3000,
+  fetch(request) {
+    const url = new URL(request.url);
+
+    if (url.pathname === "/health") {
+      return new Response(
+        JSON.stringify({
+          status: "ok",
+          timestamp: new Date().toISOString(),
+        }),
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    return new Response("Not Found", {
+      status: 404,
+      headers: { "Content-Type": "text/plain" },
+    });
+  },
+});
+
+console.log(`🚀 Server running at http://localhost:${server.port}`);
+console.log(`📡 Health check: GET /health`);
