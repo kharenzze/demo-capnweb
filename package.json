@@ -12,5 +12,8 @@
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "capnweb": "^0.1.0"
   }
 }

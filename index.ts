@@ -1,3 +1,12 @@
+import { RpcTarget, newHttpBatchRpcResponse } from "capnweb";
+import type { Api } from "./rpc";
+
+export class RpcApi extends RpcTarget implements Api {
+  sayHello(name: string) {
+    return "Hello, " + name;
+  }
+}
+
 const server = Bun.serve({
   port: 3000,
   fetch(request) {
@@ -13,6 +22,11 @@ const server = Bun.serve({
           headers: { "Content-Type": "application/json" },
         }
       );
+    }
+
+    if (url.pathname === "/api") {
+      const res = newHttpBatchRpcResponse(request, new RpcApi());
+      return res;
     }
 
     return new Response("Not Found", {
